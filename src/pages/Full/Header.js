@@ -1,61 +1,81 @@
-import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import React from 'react';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import Avatar from '@material-ui/core/Avatar';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+// import IconButton from '@material-ui/core/IconButton';
+// import Avatar from '@material-ui/core/Avatar';
+// import Menu from '@material-ui/core/Menu';
+// import MenuItem from '@material-ui/core/MenuItem';
+import { makeStyles } from '@material-ui/core/styles';
+import { settings, navItems } from '../../settings';
 
-class Header extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      menu: {
-        anchorEl: null
-      }
-    }
-  }
+const useStyles = makeStyles({
+  routeButton: {
+    // background: props =>
+    //   props.color === 'red'
+    //     ? 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)'
+    //     : 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+    border: 0,
+    borderRadius: 3,
+    // boxShadow: props =>
+    //   props.color === 'red'
+    //     ? '0 3px 5px 2px rgba(255, 105, 135, .3)'
+    //     : '0 3px 5px 2px rgba(33, 203, 243, .3)',
+    color: 'white',
+    // height: 48,
+    // padding: '0 30px',
+    // margin: 8,
+  },
+});
 
+const NavButton = props => {
+  const classes = useStyles(props);
+  console.log('props', props);
+  // const [value, setValue] = React.useState(props);
+
+  const onClick = () => {
+    const {to} = props;
+    props.history.push(to);
+  };
+
+  // return <Button className={classes.routeButton} onClick={onClick} {...other} />;
+  return <Button className={classes.routeButton} onClick={onClick} >
+    {props.children}
+  </Button>
+};
+
+const Nav = (props) => {
+  // const [value, setValue] = React.useState(0);
+  // const classes = useStyles();
+
+  return (
+    <React.Fragment>
+      {
+        navItems.map((item, index) => {
+          return(
+            <NavButton key={item.key} color='red' to={item.to} {...props} >{item.text}</NavButton>
+          )
+        })
+      }   
+    </React.Fragment>
+  );
+};
+
+class Header extends React.Component {
   render() {
-    const {classes } = this.props;
-    const { title, isPerformingAuthAction, isSignedIn, user} = this.props;
-    const {onSignUpClick, onSignInClick} = this.props;
-    const {menu} = this.state;
-    return(
-      <AppBar color='primary' position='static'>
-        <Toolbar variant='regular'>
-          <Typography sttyle={{flexGrow: 1}} color='inherit' variant='h6'>{title}</Typography>
-
-          {isSignedIn &&
-            <React.Fragment>
-              <IconButton color='inherit' disabled={isPerfromingAuthAction} onClick={this.openMenu}>
-                {user.photoURL ? <Avatar alt='Avatar' src={user.photoURL} /> : <PersonIcon />}
-              </IconButton>
-
-              <Menu anchorEl={menu.anchorEl} open={Boolean(memu.anchorEl)} onClose={this.closeMenu}>
-                <MenuItem disableed={isPerformingAuthAction} onClick={this.handleSettingsClick}> 
-                Settings
-                </MenuItem>
-                <MenuItem disabled={isPerformingAuthAction} onClick={this.handleSignOutClick}>
-                  Sign Out
-                </MenuItem>
-              </Menu>
-            </React.Fragment>
-          }
-          {!isSignedIn &&
-            <React.Fragment>
-              <Button className={classes.signUpButton} color="secondary" disabled={isPerformingAuthAction} variant="contained" onClick={onSignUpClick}>Sign Up</Button>
-              <Button color="secondary" disabled={isPerformingAuthAction} variant="contained" onClick={onSignInClick}>Sign In</Button>
-            </React.Fragment>
-          }
+    return (
+      <AppBar color="primary" position="static">
+        <Toolbar>
+          <Typography style={{ marginRight: 20 }} color="inherit" variant="h6">
+            {settings.title}
+          </Typography>
+          <Nav {...this.props}/>
         </Toolbar>
       </AppBar>
-    )
+    );
   }
-};
+}
 
 export default Header;

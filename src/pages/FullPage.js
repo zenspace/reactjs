@@ -1,13 +1,18 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
-class HomePage extends React.Component {
+import Header from './Full/Header';
+import MainContainer from './Full/MainContainer';
+
+class FullPage extends React.Component {
   render() {
-    return (
+    return(
       <div>
-        <p>Full Page</p>
+        <Header {...this.props} />
+        <MainContainer  {...this.props}/>
       </div>
-    );
+    )
   }
 }
 
-export default HomePage;
+export default withRouter(FullPage);

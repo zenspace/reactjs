@@ -25,16 +25,33 @@
 
 // export default App;
 import React, { Component } from 'react';
-import { HashRouter, Route, Switch } from 'react-router-dom';
-import HomePage  from './pages/HomePage';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import FullPage from './pages/FullPage';
+import HomePage from './pages/HomePage';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+import settings from './settings';
+
+let theme = createMuiTheme({
+  palette: {
+    primary: settings.theme.primaryColor.import,
+    secondary: settings.theme.secondaryColor.import,
+    type: settings.theme.type,
+  },
+});
 
 class App extends Component {
   render() {
-    return <HashRouter>
-      <Switch>
-        <Route exact path='/' name='home' componet={HomePage}/>
-      </Switch>
-    </HashRouter>;
+    return (
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <Switch>
+            <Route path="/" name="full" component={FullPage} />
+            <Route exact path="/home" name="full" component={HomePage} />
+          </Switch>
+        </BrowserRouter>
+      </ThemeProvider>
+    );
   }
 }
 
