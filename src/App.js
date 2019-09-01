@@ -47,7 +47,7 @@ class App extends Component {
         <BrowserRouter>
           <Switch>
             <Route path="/" name="full" component={FullPage} />
-            <Route exact path="/home" name="full" component={HomePage} />
+            <Route exact path="/home" name="home" component={HomePage} />
           </Switch>
         </BrowserRouter>
       </ThemeProvider>

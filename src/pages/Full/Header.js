@@ -49,7 +49,6 @@ const NavButton = props => {
 const Nav = (props) => {
   // const [value, setValue] = React.useState(0);
   // const classes = useStyles();
-
   return (
     <React.Fragment>
       {
@@ -76,6 +75,6 @@ class Header extends React.Component {
       </AppBar>
     );
   }
-}
+};
 
 export default Header;
